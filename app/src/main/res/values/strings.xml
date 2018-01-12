@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Quiz_eg</string>
+    <string name="scoreTextView">Score: %d</string>
 </resources>
