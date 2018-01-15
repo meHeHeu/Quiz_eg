@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test>
+    <source>https://en.wikipedia.org/wiki/Microsoft_Azure</source>
+	<topic>Microsoft Azure</topic>
+
+	<question>
+		<body>Kiedy Microsoft Azure został wydany?</body>
+		<answer>1 luty 2010</answer>
+		<banswer>10 październik 2008</banswer>
+		<banswer>15 czerwiec 2012</banswer>
+		<banswer>25 marzec 2014</banswer>
+	</question>
+
+	<question>
+		<body>Na jakiej licencji dostępny jest Microsoft Azure?</body>
+		<answer>Closed source - platform, Open source - client SDKs</answer>
+		<banswer>Closed source</banswer>
+		<banswer>Open Source</banswer>
+		<banswer>Closed source - clien SDKs, Open source - platform</banswer>
+	</question>
+
+	<question>
+		<body>Co oznacza skrót PaaS?</body>
+		<answer>Platform as a Service</answer>
+		<banswer>Platform and a SQL</banswer>
+		<banswer>Product and a Service</banswer>
+		<banswer>Product and a SQL</banswer>
+	</question>
+
+	<question>
+		<body>Jakiej technologi używa SQL Database?</body>
+		<answer>Microsoft SQL Server</answer>
+		<banswer>Cosmos DB</banswer>
+		<banswer>MySQL</banswer>
+		<banswer>Postgresql</banswer>
+	</question>
+
+	<question>
+		<body>W ilu regionach świata jest dostępny Azure?</body>
+		<answer>36</answer>
+		<banswer>35</banswer>
+		<banswer>34</banswer>
+		<banswer>33</banswer>
+	</question>
+
+</test>
