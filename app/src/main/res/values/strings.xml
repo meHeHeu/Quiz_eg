@@ -4,10 +4,11 @@
     <string name="goodAnswer">Good!</string>
     <string name="badAnswer">Bad</string>
     <string name="gameOverMsg">"GameOver!\nYour score is: %d pts."</string>
+    <string name="noQuestionFileFoundMsg">No file with questions found!</string>
     <string name="exitLabel">Exit</string>
     <string name="tryAgainLabel">Try again</string>
     <string name="permissionReqTitle">Read permission needed</string>
     <string name="permissionReqMsg">Permission to access local storage is required in order to load question base.\nWithout them the application is unable to serve any questions.</string>
-    <string name="okLabel">ok</string>
-    <string name="cancelLabel">cancel</string>
+    <string name="okLabel">OK</string>
+    <string name="cancelLabel">Cancel</string>
 </resources>

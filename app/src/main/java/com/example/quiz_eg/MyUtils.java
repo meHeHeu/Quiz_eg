@@ -26,7 +26,7 @@ public class MyUtils {
         }
     }
 
-    // Get
+    // Get list of files in subdirectories root and of extension in extensions array
     public static List<File> FileListByExtension(File root, String[] extensions) {
 
         List<File> fileList = new ArrayList<File>();

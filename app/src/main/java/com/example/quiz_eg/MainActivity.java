@@ -24,21 +24,40 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final int STORAGE_PERMISSION_CODE = 1;
+    /* Question container and settings */
 
     Questions questions;
     Questions.Question currentQuestion;
     int currentQuestionIndex;
 
-    int score;
+    /* UI elements */
 
-    @BindViews({R.id.answer1Button, R.id.answer2Button, R.id.answer3Button, R.id.answer4Button})
-    List<Button> answerButtons;
+    int score;
 
     @BindView(R.id.questionTextView)
     TextView questionTextView;
     @BindView(R.id.scoreTextView)
     TextView scoreTextView;
+
+    @BindViews({R.id.answer1Button, R.id.answer2Button, R.id.answer3Button, R.id.answer4Button})
+    List<Button> answerButtons;
+
+    @OnClick({R.id.answer1Button, R.id.answer2Button, R.id.answer3Button, R.id.answer4Button})
+    public void answerButton_onClick(Button b) {
+        if(b.getText().equals(currentQuestion.answer)) {
+            ++score;
+            scoreTextView.setText(getString(R.string.scoreTextView, score));
+            Toast.makeText(this, R.string.goodAnswer, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, R.string.badAnswer, Toast.LENGTH_SHORT).show();
+        }
+        if((++currentQuestionIndex)<questions.amount())
+            updateQuestion();
+        else
+            gameOver();
+    }
+
+    /* Quiz flow (?) */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +76,11 @@ public class MainActivity extends AppCompatActivity {
                 Environment.getExternalStorageDirectory().getPath()+"/Android/data/"+getString(R.string.app_name),
                 Environment.getExternalStorageDirectory().getPath()+"/Documents/data/"+getString(R.string.app_name)
         };
-
         questions = new Questions(quizQuestionsPath);
+        if(currentQuestionIndex >= questions.amount()) {
+            noQuestionFileFound();
+            return;
+        }
         currentQuestionIndex = 0;
 
         score = 0;
@@ -66,22 +88,8 @@ public class MainActivity extends AppCompatActivity {
         updateQuestion();
     }
 
-    @OnClick({R.id.answer1Button, R.id.answer2Button, R.id.answer3Button, R.id.answer4Button})
-    public void answerButton_onClick(Button b) {
-        if(b.getText().equals(currentQuestion.answer)) {
-            ++score;
-            scoreTextView.setText(getString(R.string.scoreTextView, score));
-            Toast.makeText(this, R.string.goodAnswer, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, R.string.badAnswer, Toast.LENGTH_SHORT).show();
-        }
-        if((++currentQuestionIndex)<questions.amount())
-            updateQuestion();
-        else
-            gameOver();
-    }
-
     private void updateQuestion() {
+
         currentQuestion = questions.getQuestion(currentQuestionIndex);
 
         questionTextView.setText(currentQuestion.body);
@@ -96,25 +104,48 @@ public class MainActivity extends AppCompatActivity {
             answerButtons.get(i).setText(answers[i]);
     }
 
+    /* Dialogs and exiting */
+
     private void gameOver() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-        alertDialogBuilder.setMessage(getString(R.string.gameOverMsg, score)).setCancelable(false).setPositiveButton(R.string.tryAgainLabel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                finish();
-            }
-        })
+        alertDialogBuilder
+                .setMessage(getString(R.string.gameOverMsg, score))
+                .setCancelable(false)
+                .setPositiveButton(R.string.tryAgainLabel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        finish();
+                    }
+                })
                 .setNegativeButton(R.string.exitLabel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         finish();
-
                     }
                 });
         AlertDialog alertDialog=alertDialogBuilder.create();
         alertDialog.show();
     }
+
+    private void noQuestionFileFound() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        alertDialogBuilder
+                .setMessage(R.string.noQuestionFileFoundMsg)
+                .setCancelable(false)
+                .setPositiveButton(R.string.exitLabel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+        AlertDialog alertDialog=alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+        /* Permissions */
+
+    private final int STORAGE_PERMISSION_CODE = 1;
 
     private void requestStoragePermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {

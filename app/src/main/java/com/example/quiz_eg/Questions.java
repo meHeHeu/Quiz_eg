@@ -15,35 +15,36 @@ import java.util.List;
 
 class Questions {
 
-    private Question[] question;
-
+    // grants an interface for accessing subvalues of each question
     class Question {
 
         public final String body;
         public final String answer;
         public final String[] badAnswer;
 
-        Question (String body, String answer, String... badAnswer) {
+        public Question (String body, String answer, String... badAnswer) {
             this.body = body;
             this.answer = answer;
             this.badAnswer = badAnswer;
         }
     }
     /*
-
     :O
     https://developer.android.com/training/basics/network-ops/xml.html
     Zrobiłem to WŁAŚNIE W TEN SPOSÓB zanim jeszcze zacząłem opracowywać parser.
     (wewnętrzna klasa, pola publiczne, finalne; konstruktor)
     Jestem zajebisty.
-
      */
 
-    class TestXmlParser {
+    // contains all* the questions
+    private Question[] question;
+
+    // xml parser
+    private class TestXmlParser {
 
         private final String ns = null;
 
-        public List<Question> parse(FileInputStream fileInputStreams)
+        List<Question> parse(FileInputStream fileInputStreams)
                 throws XmlPullParserException, IOException {
             try {
                 XmlPullParser parser = Xml.newPullParser();
@@ -171,6 +172,7 @@ class Questions {
         }
     }
 
+    // constructor, loads questions from file/s
     Questions(String ...fileNames) {
 
         List<File> quizFiles = new ArrayList<File>();
@@ -185,10 +187,8 @@ class Questions {
                 quizQuestions.addAll(testXmlParser.parse(new FileInputStream(file)));
             } catch(IOException e) {
                 e.printStackTrace();
-                continue;
             } catch(XmlPullParserException e) {
                 e.printStackTrace();
-                continue;
             }
 
         question = quizQuestions.toArray(new Question[quizQuestions.size()]);
@@ -196,11 +196,16 @@ class Questions {
         MyUtils.<Question>ShuffleArray(question);
     }
 
+    // get i-th question
+    // TODO: add internal counter and overload this function using it (or set it as default parameter for this one if possible), so this does not have to be tracked in MainActivity.java
     Question getQuestion(int i) {
         return question[i];
     }
 
+    // return amount of questions
     int amount() {
         return question.length;
     }
 }
+
+// * but not really
