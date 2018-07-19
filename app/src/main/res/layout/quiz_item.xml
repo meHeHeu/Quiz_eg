@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/quiz_item"
+	android:layout_width="match_parent"
+	android:layout_height="@dimen/quizItem_height"
+	android:background="@color/colorAccent"
+	android:textAlignment="center"
+	android:textColor="@color/quizEntryText"
+	android:textSize="@dimen/quizListItem_textSize"
+	android:textStyle="bold" />

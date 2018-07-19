@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<dimen name="activity_horizontal_margin">16dp</dimen>
+	<dimen name="activity_vertical_margin">16dp</dimen>
+	<dimen name="nav_drawer_width">260dp</dimen>
+	<dimen name="questionItem_height">50dp</dimen>
+	<dimen name="question_marginBottom">50dp</dimen>
+	<dimen name="question_marginTop">70dp</dimen>
+	<dimen name="question_textSize">20sp</dimen>
+	<dimen name="quizHeader_marginBottom">30dp</dimen>
+	<dimen name="quizHeader_textSize">45sp</dimen>
+	<dimen name="quizItem_height">50dp</dimen>
+	<dimen name="quizListItem_textSize">20sp</dimen>
+	<dimen name="quizListView_margin">30dp</dimen>
+	<dimen name="quiz_margin">20dp</dimen>
+</resources>

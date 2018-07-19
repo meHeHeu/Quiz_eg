@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="action_search">Szukaj</string>
+	<string name="action_settings">Ustawienia</string>
+	<string name="app_name">Quiz_eg</string>
+	<string name="badAnswer">Źle</string>
+	<string name="cancelLabel">Anuluj</string>
+	<string name="exitLabel">Zakończ</string>
+	<string name="gameOverMsg">Koniec!\nTwój wynik: %d pts.</string>
+	<string name="goodAnswer">Dobrze!</string>
+	<string name="noQuizFileFoundMsg">Nie znaleziono żadnych plików z quizami!</string>
+	<string name="okLabel">OK</string>
+	<string name="permissionGranted">Pozwolenie UDZIELONE.</string>
+	<string name="permissionReqMsg">Wymagane jest pozwolenie dostępu do danych lokalnych w celu załadowania bazy pytań.\\n Bez bazy pytań aplikacja nie będzie w stanie przedstawić żadnego quizu.</string>
+	<string name="permissionReqTitle">Pozwolenie odczytu wymagane</string>
+	<string name="quizSelectionTitle">Wybór Quizu</string>
+	<string name="scoreTextView">Wynik: %d/%d</string>
+	<string name="tryAgainLabel">Spróbuj jeszcze raz</string>
+</resources>

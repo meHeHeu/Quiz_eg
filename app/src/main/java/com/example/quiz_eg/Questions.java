@@ -1,7 +1,12 @@
 package com.example.quiz_eg;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.Xml;
+
+import com.example.quiz_eg.utils.Constants;
+import com.example.quiz_eg.utils.FileUtils;
+import com.example.quiz_eg.utils.RandomUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -15,197 +20,201 @@ import java.util.List;
 
 class Questions {
 
-    // grants an interface for accessing subvalues of each question
-    class Question {
+	// contains all* the questions
+	private List<Question> questions;
 
-        public final String body;
-        public final String answer;
-        public final String[] badAnswer;
+	// constructor, loads questions from file/s
+	Questions(String... fileNames) {
 
-        public Question (String body, String answer, String... badAnswer) {
-            this.body = body;
-            this.answer = answer;
-            this.badAnswer = badAnswer;
-        }
-    }
-    /*
-    :O
-    https://developer.android.com/training/basics/network-ops/xml.html
-    Zrobiłem to WŁAŚNIE W TEN SPOSÓB zanim jeszcze zacząłem opracowywać parser.
-    (wewnętrzna klasa, pola publiczne, finalne; konstruktor)
-    Jestem zajebisty.
-     */
+		List<File> quizFiles = new ArrayList<File>();
+		TestXmlParser testXmlParser = new TestXmlParser();
 
-    // contains all* the questions
-    private Question[] question;
+		for (String fileName : fileNames)
+			quizFiles.addAll(FileUtils.get(new File(fileName), Constants.QUIZ_FILE_EXTENSIONS));
 
-    // xml parser
-    private class TestXmlParser {
+		for (File file : quizFiles)
+			try {
+				questions.addAll(testXmlParser.parse(new FileInputStream(file)));
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (XmlPullParserException e) {
+				e.printStackTrace();
+			}
 
-        private final String ns = null;
+		RandomUtils.ShuffleArray(questions);
+	}
 
-        List<Question> parse(FileInputStream fileInputStreams)
-                throws XmlPullParserException, IOException {
-            try {
-                XmlPullParser parser = Xml.newPullParser();
-                parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-                parser.setInput(fileInputStreams, null);
-                parser.nextTag();
-                return readTest(parser);
-            } finally {
-                fileInputStreams.close();
-            }
-        }
+	Questions(File file) {
+		TestXmlParser testXmlParser = new TestXmlParser();
 
-        private List<Question> readTest(XmlPullParser parser)
-                throws XmlPullParserException, IOException {
+		try {
+			questions = testXmlParser.parse(new FileInputStream(file));
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+		}
 
-            ArrayList<Question> result = new ArrayList<Question>();
+		RandomUtils.ShuffleArray(questions);
+	}
 
-            parser.require(XmlPullParser.START_TAG, ns, "test");
+	// get i-th question
+	// TODO: add internal counter and overload this function using it (or set it as default parameter for this one if possible), so this does not have to be tracked in QuizActivity.java
+	Question getQuestion(int i) {
+		return questions.get(i);
+	}
 
-            while(parser.next() != XmlPullParser.END_TAG) {
+	// return number of questions
+	int number() {
+		return questions.size();
+	}
 
-                if(parser.getEventType() != XmlPullParser.START_TAG)
-                    continue;
+	// grants an interface for accessing subvalues of each question
+	static class Question {
 
-                String name = parser.getName();
-                if(name.equals("question"))
-                    result.add(readQuestion(parser));
-                else
-                    skip(parser);
-            }
+		public final String body;
+		public final String answer;
+		public final List<String> badAnswer;
 
-            return result;
-        }
+		public Question(String body, String answer, List<String> badAnswer) {
+			this.body = body;
+			this.answer = answer;
+			this.badAnswer = badAnswer;
+		}
+	}
 
-        private Question readQuestion(XmlPullParser parser)
-                throws XmlPullParserException, IOException {
+	// xml parser
+	private class TestXmlParser {
 
-            String body = null;
-            String answer = null;
-            String[] banswer = new String[3];
-            int banswer_num = 0;
+		private final String ns = null;
 
-            parser.require(XmlPullParser.START_TAG, ns, "question");
+		List<Question> parse(FileInputStream fileInputStreams)
+				throws XmlPullParserException, IOException {
+			try {
+				XmlPullParser parser = Xml.newPullParser();
+				parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+				parser.setInput(fileInputStreams, null);
+				parser.nextTag();
+				return readTest(parser);
+			} finally {
+				fileInputStreams.close();
+			}
+		}
 
-            while(parser.next() != XmlPullParser.END_TAG) {
+		private List<Question> readTest(XmlPullParser parser)
+				throws XmlPullParserException, IOException {
 
-                if(parser.getEventType() != XmlPullParser.START_TAG)
-                    continue;
+			ArrayList<Question> result = new ArrayList<Question>();
 
-                String name = parser.getName();
-                if(name.equals("banswer"))
-                    banswer[banswer_num++] = readEntry(parser, "banswer"); // FIXME: if more entries of banswer found in a xml file, this will crash an app (or cause undefined behaviour)
-                else if(name.equals("answer"))
-                    answer = readEntry(parser, "answer");
-                else if(name.equals("body"))
-                    body = readEntry(parser, "body");
-                else
-                    skip(parser);
-            }
+			parser.require(XmlPullParser.START_TAG, ns, "test");
 
-            return new Question(body, answer, banswer);
-        }
+			while (parser.next() != XmlPullParser.END_TAG) {
 
-        private String readEntry(XmlPullParser parser, String entryName)
-                throws XmlPullParserException, IOException {
+				if (parser.getEventType() != XmlPullParser.START_TAG)
+					continue;
 
-            parser.require(XmlPullParser.START_TAG, ns, entryName);
-            String result = readText(parser);
-            parser.require(XmlPullParser.END_TAG, ns, entryName);
+				String name = parser.getName();
+				if (name.equals("question"))
+					result.add(readQuestion(parser));
+				else
+					skip(parser);
+			}
 
-            return result;
-        }
+			return result;
+		}
 
-        private String readText(XmlPullParser parser)
-                throws XmlPullParserException, IOException {
+		@NonNull
+		private Question readQuestion(XmlPullParser parser)
+				throws XmlPullParserException, IOException {
 
-            String result = "";
+			String body = null;
+			String answer = null;
+			List<String> banswer = new ArrayList<String>();
 
-            if(parser.next() == XmlPullParser.TEXT) {
-                result = parser.getText();
-                parser.nextTag();
-            }
+			parser.require(XmlPullParser.START_TAG, ns, "question");
 
-            return result;
-        }
+			while (parser.next() != XmlPullParser.END_TAG) {
 
-        private void skip(XmlPullParser parser)
-                throws XmlPullParserException, IOException {
+				if (parser.getEventType() != XmlPullParser.START_TAG)
+					continue;
 
-            if(parser.getEventType() != XmlPullParser.START_TAG)
-                throw new IllegalStateException();
+				String name = parser.getName();
+				if (name.equals("banswer"))
+					banswer.add(readEntry(parser, "banswer"));
+				else if (name.equals("answer"))
+					answer = readEntry(parser, "answer");
+				else if (name.equals("body"))
+					body = readEntry(parser, "body");
+				else
+					skip(parser);
+			}
 
-            int depth = 1;
-            while(depth != 0) {
-                switch(parser.next()) {
-                    case XmlPullParser.END_TAG:
-                        --depth;
-                        break;
-                    case XmlPullParser.START_TAG:
-                        ++depth;
-                        break;
-                }
-            }
-        }
+			return new Question(body, answer, banswer);
+		}
 
-        public void ExampleParsing()
-                throws XmlPullParserException, IOException {
-            XmlPullParser xpp = Xml.newPullParser();
+		private String readEntry(XmlPullParser parser, String entryName)
+				throws XmlPullParserException, IOException {
 
-            xpp.setInput( new StringReader( "<foo>Hello World!</foo>" ) );
-            int eventType = xpp.getEventType();
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                if(eventType == XmlPullParser.START_DOCUMENT) {
-                    Log.i("ExampleParsing", "Start document");
-                } else if(eventType == XmlPullParser.START_TAG) {
-                    Log.i("ExampleParsing", "Start tag "+xpp.getName());
-                } else if(eventType == XmlPullParser.END_TAG) {
-                    Log.i("ExampleParsing", "End tag "+xpp.getName());
-                } else if(eventType == XmlPullParser.TEXT) {
-                    Log.i("ExampleParsing", "Text "+xpp.getText());
-                }
-                eventType = xpp.next();
-            }
-            Log.i("ExampleParsing", "End document");
-        }
-    }
+			parser.require(XmlPullParser.START_TAG, ns, entryName);
+			String result = readText(parser);
+			parser.require(XmlPullParser.END_TAG, ns, entryName);
 
-    // constructor, loads questions from file/s
-    Questions(String ...fileNames) {
+			return result;
+		}
 
-        List<File> quizFiles = new ArrayList<File>();
-        List<Question> quizQuestions = new ArrayList<Question>();
-        TestXmlParser testXmlParser = new TestXmlParser();
+		private String readText(XmlPullParser parser)
+				throws XmlPullParserException, IOException {
 
-        for(String fileName : fileNames)
-            quizFiles.addAll(MyUtils.FileListByExtension(new File(fileName), new String[]{".xml"}));
+			String result = "";
 
-        for(File file : quizFiles)
-            try {
-                quizQuestions.addAll(testXmlParser.parse(new FileInputStream(file)));
-            } catch(IOException e) {
-                e.printStackTrace();
-            } catch(XmlPullParserException e) {
-                e.printStackTrace();
-            }
+			if (parser.next() == XmlPullParser.TEXT) {
+				result = parser.getText();
+				parser.nextTag();
+			}
 
-        question = quizQuestions.toArray(new Question[quizQuestions.size()]);
+			return result;
+		}
 
-        MyUtils.<Question>ShuffleArray(question);
-    }
+		private void skip(XmlPullParser parser)
+				throws XmlPullParserException, IOException {
 
-    // get i-th question
-    // TODO: add internal counter and overload this function using it (or set it as default parameter for this one if possible), so this does not have to be tracked in MainActivity.java
-    Question getQuestion(int i) {
-        return question[i];
-    }
+			if (parser.getEventType() != XmlPullParser.START_TAG)
+				throw new IllegalStateException();
 
-    // return amount of questions
-    int amount() {
-        return question.length;
-    }
+			int depth = 1;
+			while (depth != 0) {
+				switch (parser.next()) {
+					case XmlPullParser.END_TAG:
+						--depth;
+						break;
+					case XmlPullParser.START_TAG:
+						++depth;
+						break;
+				}
+			}
+		}
+
+		public void ExampleParsing()
+				throws XmlPullParserException, IOException {
+			XmlPullParser xpp = Xml.newPullParser();
+
+			xpp.setInput(new StringReader("<foo>Hello World!</foo>"));
+			int eventType = xpp.getEventType();
+			while (eventType != XmlPullParser.END_DOCUMENT) {
+				if (eventType == XmlPullParser.START_DOCUMENT) {
+					Log.i("ExampleParsing", "Start document");
+				} else if (eventType == XmlPullParser.START_TAG) {
+					Log.i("ExampleParsing", "Start tag " + xpp.getName());
+				} else if (eventType == XmlPullParser.END_TAG) {
+					Log.i("ExampleParsing", "End tag " + xpp.getName());
+				} else if (eventType == XmlPullParser.TEXT) {
+					Log.i("ExampleParsing", "Text " + xpp.getText());
+				}
+				eventType = xpp.next();
+			}
+			Log.i("ExampleParsing", "End document");
+		}
+	}
 }
 
 // * but not really

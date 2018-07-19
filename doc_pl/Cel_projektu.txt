@@ -1,1 +1,0 @@
-Celem projektu jest aplikacja dająca możliwość przećwiczenia mobilnie zagadnień danych w formie quizu.

@@ -1,14 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="quizSelectionTitle">Quiz selection</string>
+    <string name="action_search">Search</string>
+    <string name="action_settings">Settings</string>
     <string name="app_name">Quiz_eg</string>
-    <string name="scoreTextView">Score: %d</string>
-    <string name="goodAnswer">Good!</string>
     <string name="badAnswer">Bad</string>
-    <string name="gameOverMsg">"GameOver!\nYour score is: %d pts."</string>
-    <string name="noQuestionFileFoundMsg">No file with questions found!</string>
-    <string name="exitLabel">Exit</string>
-    <string name="tryAgainLabel">Try again</string>
-    <string name="permissionReqTitle">Read permission needed</string>
-    <string name="permissionReqMsg">Permission to access local storage is required in order to load question base.\nWithout them the application is unable to serve any questions.</string>
-    <string name="okLabel">OK</string>
     <string name="cancelLabel">Cancel</string>
+    <string name="exitLabel">Exit</string>
+    <string name="gameOverMsg">"GameOver!\nYour score is: %d pts."</string>
+    <string name="goodAnswer">Good!</string>
+    <string name="noQuizFileFoundMsg">No file with quiz found!</string>
+    <string name="okLabel">OK</string>
+    <string name="permissionGranted">Permission GRANTED.</string>
+    <string name="permissionReqMsg">Permission to access local storage is required in order to load question base.\nWithout them the application is unable to serve any quiz.</string>
+    <string name="permissionReqTitle">Read permission needed</string>
+    <string name="scoreTextView">Score: %d/%d</string>
+    <string name="tryAgainLabel">Try again</string>
 </resources>
