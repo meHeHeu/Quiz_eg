@@ -3,7 +3,7 @@
 	<string name="quizSelectionTitle">Quiz selection</string>
     <string name="action_search">Search</string>
     <string name="action_settings">Settings</string>
-    <string name="app_name">Quiz_eg</string>
+    <string name="app_name">Quiz</string>
     <string name="badAnswer">Bad</string>
     <string name="cancelLabel">Cancel</string>
     <string name="exitLabel">Exit</string>

@@ -1,65 +1,76 @@
 \documentclass[12pt, a4paper]{article}
+
 \usepackage{polski}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{hyperref}
 \usepackage{graphicx}
+
 \usepackage{listings}
 \lstset{
 %numbers=left
 }
+
 \usepackage{fancyhdr}
 %\pagestyle{fancy}
-%\lhead{Alan Andrzejak, Aleksy Dziarmaga, Michał Kloc}
-%\rhead{Dokumentacja projektu Mobilna edukacja}
+%\lhead{Michał Kloc}
+%\rhead{Quiz}
+
 \usepackage{geometry}
 %\newgeometry{tmargin=4.5cm, bmargin=2.5cm, lmargin=2.5cm, rmargin=2.5cm}
 \newgeometry{tmargin=2.5cm, bmargin=2.5cm, lmargin=2.5cm, rmargin=2.5cm}
-\title{08. Mobilna edukacja: wykład oraz kolokwium w postaci testu jednokrotnego wyboru - projekt}
-\author{Alan Andrzejak, Aleksy Dziarmaga, Michał Kloc}
+
+\title{Quiz - projekt z przedmiotu Mobilne Interfejsy Multimedialne}
+\author{Michał Kloc}
 \date{}
-\usepackage{tikz}
-\usetikzlibrary{shapes.geometric, arrows}
-\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
-\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
-\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!30]
-\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!30]
-\tikzstyle{arrow} = [thick,->,>=stealth]
+
 \PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+
+
 \begin{document}
+
 \begin{titlepage}
 	\centering
 	\includegraphics[scale=0.2]{imgs/logo_polsl.jpg}\par\vspace{1cm}
 	{\scshape\LARGE Politechnika Śląska \par}
 	\vspace{1cm}
-	{\scshape\Large 08. Mobilna edukacja:\par}
+	{\scshape\Large Mobilne Interfejsy Multimedialne.\par}
 	\vspace{1.5cm}
-	{\huge\bfseries wykład oraz kolokwium w postaci testu jednokrotnego wyboru.\par}
+	{\huge\bfseries Quiz\par}
 	\vspace{2cm}
-	{\Large\itshape Alan Andrzejak, Aleksy Dziarmaga, Michał Kloc\par}
+	{\Large\itshape Michał Kloc\par}
 	\vfill
 	{\large \today\par}
 \end{titlepage}
+
 \tableofcontents
 \setcounter{page}{0}
 \newpage
+
+
 \part{Użytkowanie}
+
 \section{Opis aplikacji}
-Na obecnym etapie projektu "Mobilna edukacja", dostępna jest aplikacja "Quiz", pozwalająca na przetestowanie własnej wiedzy mobilnie na przygotowany wcześniej temat.
+Aplikacja pozwala na rozwiązywanie wcześniej przygotowanych quizów.
+
 \section{Wymagania systemowe}
 Program był testowany na telefonie \textbf{Galaxy A5} z systemem \textbf{Android 7.0}.\\
 Do skompilowania aplikacji wykorzystano środowisko \textbf{Android-Studio 3.0.1} w systemie GNU/Linux, dystrybucji Mint.
+
 \section{Instrukcja obsługi}
+
 \subsection{Baza pytań}
 Po uruchomieniu, aplikacja przeszukuje poniższe lokalizacje w celu załadowania listy pytań:
 \begin{itemize}
-\item Quiz\_eg
-\item Android/data/Quiz\_eg
-\item Documents/data/Quiz\_eg
+\item Quiz
+\item Android/data/Quiz
+\item Documents/data/Quiz
 \end{itemize}
-W przypadku nie znalezienia żadnego pliku .xml program zakańcza swoje działanie.
+W przypadku nie znalezienia żadnej bazy pytań, program kończy swoje działanie.\\
+W menu jest możliwość wyboru dostępnych quizów.
 \newpage
+
 \subsection{Format bazy pytań}
 Pliki zawierające pytania do quizu muszą być następującego formatu:
 \begin{lstlisting}
@@ -71,6 +82,7 @@ Pliki zawierające pytania do quizu muszą być następującego formatu:
 		<banswer> ZLA ODPOWIEDZ      </banswer>
 		<banswer> ZLA ODPOWIEDZ      </banswer>
 		<banswer> ZLA ODPOWIEDZ      </banswer>
+		...
 	</question>
 
 	<question>
@@ -81,89 +93,164 @@ Pliki zawierające pytania do quizu muszą być następującego formatu:
 
 </test>
 \end{lstlisting}
-Plik .xml musi składać się z korzenia o nazwie \textbf{test} i zawierać elementy o nazwie \textbf{question}.\\
-Każdy element \textbf{question} musi zawierać po jednym elemencie \textbf{body} i \textbf{answer}, oraz 3 elementy \textbf{banswer}.
-Oprócz tego element \textbf{test} może zawierać dodatkowe tagi opisujące pytania - zostaną one zignorowane.
-\textbf{Każdy inny sposób opisania pytań może spowodować niezdefiniowane zachowanie.}
+Baza pytań znajduje się w elemencie nadrzędnym \textbf{test}.\\
+Każde pytanie reprezentowane jest przez element \textbf{question}.\\
+\textbf{Question} musi posiada elementy:
+\begin{itemize}
+\item \textbf{body} - treść pytania
+\item \textbf{answer} - poprawną odpowiedź
+\item \textbf{banswer} - niepoprawne odpowiedzi (powinno być więcej niż jedna)
+\end{itemize}
+Oprócz tego element \textbf{test} może zawierać dodatkowe tagi opisujące pytania (np. autor, źródło) - w tej wersji aplikacji zostaną one zignorowane.
+\textbf{Każdy inny sposób opisania pytań powoduje niezdefiniowane zachowanie.}
+
 \subsection{Quiz}
-Quiz rozwiązuje się klikając odpowiednie przyciski. Pytanie oraz ilość punktów znajdują się powyżej przycisków wyboru.\\
+Quiz rozwiązuje się klikając przyciski z odpowiedziami. Pytanie oraz wynik znajdują się powyżej przycisków wyboru.\\
 Każda poprawna odpowiedź gwarantuje 1pt.\\
 Quiz kończy się po odpowiedzeniu na ostatnie pytanie.\\
-Aplikacja zapewnia możliwość ponownego przejścia quizu.
+
 \section{Bugi}
-Dotychczasowe testy nie wykazały żadnych niezgodności.
+Dotychczasowe testy nie wykazały żadnych błędów.
 \newpage
+
+
+\part{Opinie użytkowników}
+\section{Grupa docelowa}
+Za grupę docelową wybrałem użytkowników w wieku 15-50 lat.
+\section{Opinie}
+\begin{itemize}
+\item Osoba1\\
+Zalety:
+\begin{itemize}
+\item a
+\item b
+\item c
+\end{itemize}
+Proponowane zmiany/poprawki:
+\begin{itemize}
+\item a
+\item b
+\item c
+\end{itemize}
+\end{itemize}
+
 \part{Opis projektu}
-\section{Opis ważniejszych plików źródłowych}
+
+\section{Lista plików}
 \begin{itemize}
 \item app/src/main/\textbf{AndroidManifest.xml}
 \item app/src/main/res/layout/\textbf{activity\_main.xml}
+\item app/src/main/res/layout/\textbf{activity\_quiz.xml}
+\item app/src/main/res/layout/\textbf{question\_item.xml}
+\item app/src/main/res/layout/\textbf{quiz\_item.xml}
+\item app/src/main/res/layout/\textbf{toolbar.xml}
+\item app/src/main/res/menu/\textbf{menu\_main.xml}
+\item app/src/main/res/values/\textbf{colors.xml}
+\item app/src/main/res/values/\textbf{dimens.xml}
 \item app/src/main/res/values/\textbf{strings.xml}
-\item app/src/main/java/com/example/quiz\_eg/\textbf{MyUtils.java}
+\item app/src/main/res/values/\textbf{styles.xml}
+\item app/src/main/res/values-pl/\textbf{styles.xml}
+\item app/src/main/java/com/example/quiz\_eg/\textbf{utils/Constants.java}
+\item app/src/main/java/com/example/quiz\_eg/\textbf{utils/FileUtils.java}
+\item app/src/main/java/com/example/quiz\_eg/\textbf{utils/RandomUtils.java}
 \item app/src/main/java/com/example/quiz\_eg/\textbf{Questions.java}
 \item app/src/main/java/com/example/quiz\_eg/\textbf{MainActivity.java}
+\item app/src/main/java/com/example/quiz\_eg/\textbf{QuizActivity.java}
 \end{itemize}
+\newpage
+
+\section{Opis plików}
+
 \subsection{AndroidManifest.xml}
 Ustawienia aplikacji.\\
-Ustawiono orientację pionową na stałe oraz uprawnienia, jakich aplikacja zarząda.
-\subsection{activity\_main.xml}
-Opis wyglądu interfejsu aplikacji.
-\subsection{strings.xml}
-Wszelkie stałe etykiety i wiadomości.
-\subsection{MyUtils.java}
-Klasa zapewniająca dodatkowe narzędzia.\\
-Spis metod:\\
 \begin{itemize}
-\item
+\item Orientacja pionowa aktywności.
+\item Wymagane pozwolenie na odczytywanie pamięci.
+\item \textbf{QuizActivity} ma aktywność rodzicielską \textbf{MainActivity}.
+\end{itemize}
+
+\subsection{układy}
+\begin{itemize}
+\item \textbf{activity\_main.xml} - układ menu głównego
+\item \textbf{activity\_quiz.xml} - układ quizu
+\item \textbf{question\_item.xml} - układ (wygląd) elementu w liście pytań
+\item \textbf{quiz\_item.xml} - układ (wygląd) elementu w liście quizów
+\item \textbf{toolbar.xml} - wygląd paska narzędzi
+\end{itemize}
+
+\subsection{tekst}
+Plik \textbf{value/strings.xml} zawiera tekst w interfejsie w języku angielskim.\\
+Plik \textbf{value-pl/strings.xml} zawiera tłumaczenie powyższego pliku na język polski.
+
+\subsection{Wygląd interfejsu}
+\begin{itemize}
+\item \textbf{colors.xml} - kolor elementów układów
+\item \textbf{dimens.xml} - rozmiar elementów układów
+\item \textbf{styles.xml} - styl elementów
+\end{itemize}
+
+\subsection{Paczka utils}
+\textbf{Nie} można \textbf{instancjonować} klas w tej paczce. \textbf{Nie} można też ich \textbf{rozszerzać}. Zawiera ona funkcje i zmienne pomocnicze.
+\subsubsection{Constants}
+Globalne stałe dla projektu.
+\begin{itemize}
+\item\begin{lstlisting}
+public static final int STORAGE_PERMISSION_CODE;
+\end{lstlisting}
+Służy do obsługi uprawnień aplikacji.
+\item\begin{lstlisting}
+public static final String EXTERNAL_STORAGE_DIRECTORY;
+\end{lstlisting}
+Ścieżka do katalogu domowego.
+\item\begin{lstlisting}
+public static final String QUIZ_EXTRA;
+\end{lstlisting}
+Klucz do przenoszenia plików z quizem między aktywnościami.
+\item\begin{lstlisting}
+public static final String[] QUIZ_PATHS;
+\end{lstlisting}
+Ściężki (względem katalogu domowego) w których aplikacja będzie wyszukiwać quizów.
+\item\begin{lstlisting}
+public static final String QUIZ_FILE_EXTENSIONS;
+\end{lstlisting}
+Rozszerzenie plików, w których poszukiwane będą quizy.
+\item\begin{lstlisting}
+public static final String PERMISSIONS_REQUIRED;
+\end{lstlisting}
+List pozwoleń, jakich aplikacja wymaga.
+\end{itemize}
+
+\subsection{FileUtils}
+Operacje na plikach.
 \begin{lstlisting}
-public static <T> void ShuffleArray(T[] array);
+public static List<File> get(File root, String[] extensions);
 \end{lstlisting}
-Przestawia losowo (tasuje) elementy tablicy.\\
-Potrzebne do losowania kolejności pytań oraz kolejności wyświetlania odpowiedzi.
-\item\begin{lstlisting}
-public static List<File>
-FileListByExtension(
-File root, String[] extensions
-);
+Jeżeli \textbf{root} jest folderem, zwraca listę wszystkich plików w tym folderze i jego podkatalogach, które mają roszerzenie w tablicy \textbf{extensions}.
+
+\subsection{RandomUtils}
+Zawiera narzędzia do losowania.
+\begin{lstlisting}
+public static <T> void shuffleList(List<T> list);
+public static <T> void shuffleArray(T[] array);
 \end{lstlisting}
-Zwraca listę wszystkich plików w podścieżce \textbf{root} o rozszerzeniach w tablicy \textbf{extensions}.\\
-Potrzebne do wyszukania plików .xml.
-\end{itemize}
-\subsection{Questions.java}
-Zawiera klasę \textbf{Questions} służącą jako kontener na pytania.\\\\
-Członkowie klasy:
+Wymieszaj listę / tablicę.
+
+\section{Questions.java}
+Służy do wczytywania, przechowywania i udostępniania danych aktywności.\\
+Format wczytywanych danych opisany jest w części Użytkowanie, sekcja Instrukcja obsługi, Format bazy pytań.
 \begin{itemize}
 \item\begin{lstlisting}
-class Question;
+Questions(File file);
 \end{lstlisting}
-Gwarantuje interfejs dla części składowych pytania.
+Konstruktor. Wczytuje bazę pytań z pliku \textbf{file}.
 \item\begin{lstlisting}
-Questions(String ...fileNames);
+Questions(String... fileNames);
 \end{lstlisting}
-Konstruktor, przeszukuje podane lokalizacje po pliki .xml, parsuje je i wypełnia kontener \textbf{question}.
+Konstruktor. Wczytuje bazę pytań z plików o nazwach \textbf{fileNames}.
 \item\begin{lstlisting}
-Question getQuestion(int i);
+static class Question;
 \end{lstlisting}
-Zwraca pytanie (element typu \textbf{Question}) o indeksie \textbf{i}.
-\item\begin{lstlisting}
-int amount();
-\end{lstlisting}
-Zwraca ilość pytań w kontenerze \textbf{question}.
-\end{itemize}
-Prywatni członkowie klasy:
-\begin{itemize}
-\item\begin{lstlisting}
-private Question[] question;
-\end{lstlisting}
-Kontener trzymający wszystkie wczytane przez konstruktor pytania.
-\item\begin{lstlisting}
-private class TestXmlParser;
-\end{lstlisting}
-Klasa odpowiedzialna za przetworzenie pliku .xml na dane ładowane do obiektów typu \textbf{Qestion}.
-\end{itemize}
-\subsubsection{Klasa Question}
-Interfejs dający dostęp do elementów pytania.\\\\
-Dostępne pola:
+Zapewnia interfejs do odzyskiwania informacji o pytaniach.
 \begin{itemize}
 \item\begin{lstlisting}
 public final String body;
@@ -172,154 +259,38 @@ Treść pytania.
 \item\begin{lstlisting}
 public final String answer;
 \end{lstlisting}
-Odpowiedź na pytanie.
+Odpowiedź prawidłowa.
 \item\begin{lstlisting}
-public final String[] banswer;
+public final List<String> banswer;
 \end{lstlisting}
-Złe odpowiedzi.
-\end{itemize}
-Konstruktor:
-\begin{lstlisting}
-public
-Question(
-String body,
-String answer,
-String ...banswer
+Lista nieprawidłowych odpowiedzi.
+\item\begin{lstlisting}
+public Question(
+	String body,
+	String answer,
+	List<String> badanswer
 );
 \end{lstlisting}
-\subsubsection{Klasa TestXmlParser}
-\textbf{TestXmlParser} jest klasą prywatną na użytek klasy \textbf{Questions}.\\
-Służy do parsowania strumienia z pliku .xml do obiektu klasy \textbf{Question}.\\
-Parsowanie wykonuje się metodą:
-\begin{lstlisting}
-List<Question> parse(FileInputStream fileInputStreams)
-                throws XmlPullParserException, IOException;
-\end{lstlisting}
-Metody prywatne:
-\begin{lstlisting}
-private List<Question> readTest(XmlPullParser parser)
-        throws XmlPullParserException, IOException;
-
-private Question readQuestion(XmlPullParser parser)
-        throws XmlPullParserException, IOException;
-
-private String readEntry(XmlPullParser parser, String entryName)
-        throws XmlPullParserException, IOException;
-
-private String readText(XmlPullParser parser)
-        throws XmlPullParserException, IOException;
-
-private void skip(XmlPullParser parser)
-        throws XmlPullParserException, IOException;
-
-public void ExampleParsing()
-        throws XmlPullParserException, IOException;
-\end{lstlisting}
-\subsection{MainActivity.java}
-Zawiera definicję klasy \textbf{MainActivity} dziedziczącej po klasie \textbf{AppCompatActivity}.\\\\
-Lista pól i metod:
-\begin{itemize}
-\item\begin{lstlisting}
-Questions questions;
-\end{lstlisting}
-Kontener z załadowanymi pytaniami.
-\item\begin{lstlisting}
-Questions.Question currentQuestion;
-\end{lstlisting}
-Obecne pytanie.
-\item\begin{lstlisting}
-int currentQuestionIndex;
-\end{lstlisting}
-Index obecnego pytania.
-\item\begin{lstlisting}
-int score;
-\end{lstlisting}
-Posiadane punty.
-\item\begin{lstlisting}
-@BindView(R.id.questionTextView)
-TextView questionTextView;
-
-@BindView(R.id.scoreTextView)
-TextView scoreTextView;
-
-@BindViews({
-R.id.answer1Button,
-R.id.answer2Button,
-R.id.answer3Button,
-R.id.answer4Button
-}) List<Button> answerButtons;
-\end{lstlisting}
-Referencje do elemntów UI.
-\item\begin{lstlisting}
-@OnClick({
-R.id.answer1Button,
-R.id.answer2Button,
-R.id.answer3Button,
-R.id.answer4Button
-})
-public void answerButton_onClick(Button b);
-\end{lstlisting}
-Obsługa naciśnięcia guzika.
-\item\begin{lstlisting}
-protected void onCreate(Bundle savedInstanceState);
-\end{lstlisting}
-Inicjalizacja aktywności.\\
-Sprawdzenie uprawnień do odczytu plików.\\
-Ustawienie elementów UI.\\
-Załadowanie pytań.
-\item\begin{lstlisting}
-private void updateQuestion();
-\end{lstlisting}
-Załadowanie pytanie do \textbf{currentQuestion} o indeksie \textbf{currentQuestionIndex}.
-\item\begin{lstlisting}
-private void gameOver();
-\end{lstlisting}
-Wyświetl komunikat o zakończeniu quizu, pokaż ilość punktów i zapytaj czy spróbować jeszcze raz, czy zakończyć działanie aplikacji.
-\item\begin{lstlisting}
-private void noQuestionFileFound();
-\end{lstlisting}
-Poinformuj o nie znalezieniu plików z pytaniami i zakończ.
-\item\begin{lstlisting}
-private final int STORAGE_PERMISSION_CODE = 1;
-\end{lstlisting}
-\item\begin{lstlisting}
-private void requestStoragePermission();
-\end{lstlisting}
-Wyświetl komunikat o niedostatecznych uprawnieniach do odczytu plików na urządzeniu, poproś o ich ustawienie.\\
-Zakończ w przypadku odmowy użytkownika.
-\item\begin{lstlisting}
-@Override
-public void
-onRequestPermissionsResult(
-int requestCode,
-@NonNull String[] permissions,
-@NonNull int[] grantResults
-);
-\end{lstlisting}
-Obsłuż wynik zapytania o uprawnienia.
+Konstruktor.
 \end{itemize}
-\section{Źródła}
-\begin{enumerate}
-\item Butter Knife\\
-\url{https://jakewharton.github.io/butterknife/}
-\item Parsing xml\\
-\url{https://developer.android.com/training/basics/network-ops/xml.html}
-\item Random shuffling of an array\\
-\url{https://stackoverflow.com/questions/1519736/random-shuffling-of-an-array#1520212}
-\item Formatting strings\\
-\url{https://developer.android.com/reference/java/util/Formatter.html}
-\item java.util.Random.nextInt() Method\\
-\url{https://www.tutorialspoint.com/java/util/random_nextint_inc_exc.htm}
-\item Why can't a Java class be declared as static?\\
-\url{https://stackoverflow.com/questions/2376938/why-cant-a-java-class-be-declared-as-static}
-\item How to make a Java Generic method static?\\
-\url{https://stackoverflow.com/questions/4409100/how-to-make-a-java-generic-method-static#4409134}
-\item Use of final class in Java\\
-\url{https://stackoverflow.com/questions/5181578/use-of-final-class-in-java}
-\item Type List vs type ArrayList in Java\\
-\url{https://stackoverflow.com/questions/2279030/type-list-vs-type-arraylist-in-java}
-\item Rethrowing checked exceptions\\
-\url{https://stackoverflow.com/questions/4554230/rethrowing-checked-exceptions#4554253}
-\end{enumerate}
-Dokument wygenerowano programem pdfTeX 3.14159265-2.6-1.40.16.
+
+\item\begin{lstlisting}
+Question getQuestion(int i);
+\end{lstlisting}
+Zwraca pytanie numer \textbf{i}.
+\item\begin{lstlisting}
+int number();
+\end{lstlisting}
+Zwraca liczbę załadowanych pytań.
+\end{itemize}
+
+\section{MainActivity.java}
+Opisuje główne menu.\\
+Sprawdza, czy aplikacja posiada odpowienie uprawnienia.\\
+Wczytuje listę baz z quizami.\\
+
+\section{QuizActivity.java}
+Opisuje aktywność przeprowadzającą quiz.\\
+
 \end{document}
+

@@ -18,7 +18,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-class Questions {
+public class Questions {
 
 	// contains all* the questions
 	private List<Question> questions;
@@ -26,7 +26,7 @@ class Questions {
 	// constructor, loads questions from file/s
 	Questions(String... fileNames) {
 
-		List<File> quizFiles = new ArrayList<File>();
+		List<File> quizFiles = new ArrayList<>();
 		TestXmlParser testXmlParser = new TestXmlParser();
 
 		for (String fileName : fileNames)
@@ -41,10 +41,10 @@ class Questions {
 				e.printStackTrace();
 			}
 
-		RandomUtils.ShuffleArray(questions);
+		RandomUtils.ShuffleList(questions);
 	}
 
-	Questions(File file) {
+	public Questions(File file) {
 		TestXmlParser testXmlParser = new TestXmlParser();
 
 		try {
@@ -55,22 +55,22 @@ class Questions {
 			e.printStackTrace();
 		}
 
-		RandomUtils.ShuffleArray(questions);
+		RandomUtils.ShuffleList(questions);
 	}
 
 	// get i-th question
 	// TODO: add internal counter and overload this function using it (or set it as default parameter for this one if possible), so this does not have to be tracked in QuizActivity.java
-	Question getQuestion(int i) {
+	public Question getQuestion(int i) {
 		return questions.get(i);
 	}
 
 	// return number of questions
-	int number() {
+	public int number() {
 		return questions.size();
 	}
 
 	// grants an interface for accessing subvalues of each question
-	static class Question {
+	public static class Question {
 
 		public final String body;
 		public final String answer;
@@ -104,7 +104,7 @@ class Questions {
 		private List<Question> readTest(XmlPullParser parser)
 				throws XmlPullParserException, IOException {
 
-			ArrayList<Question> result = new ArrayList<Question>();
+			ArrayList<Question> result = new ArrayList<>();
 
 			parser.require(XmlPullParser.START_TAG, ns, "test");
 
@@ -129,7 +129,7 @@ class Questions {
 
 			String body = null;
 			String answer = null;
-			List<String> banswer = new ArrayList<String>();
+			List<String> banswer = new ArrayList<>();
 
 			parser.require(XmlPullParser.START_TAG, ns, "question");
 
@@ -139,14 +139,20 @@ class Questions {
 					continue;
 
 				String name = parser.getName();
-				if (name.equals("banswer"))
-					banswer.add(readEntry(parser, "banswer"));
-				else if (name.equals("answer"))
-					answer = readEntry(parser, "answer");
-				else if (name.equals("body"))
-					body = readEntry(parser, "body");
-				else
-					skip(parser);
+				switch (name) {
+					case "banswer":
+						banswer.add(readEntry(parser, "banswer"));
+						break;
+					case "answer":
+						answer = readEntry(parser, "answer");
+						break;
+					case "body":
+						body = readEntry(parser, "body");
+						break;
+					default:
+						skip(parser);
+						break;
+				}
 			}
 
 			return new Question(body, answer, banswer);

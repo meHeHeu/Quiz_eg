@@ -1,10 +1,9 @@
-package com.example.quiz_eg;
+package com.example.quiz_eg.activities;
 
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -13,11 +12,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.quiz_eg.R;
 import com.example.quiz_eg.utils.Constants;
 import com.example.quiz_eg.utils.FileUtils;
 
@@ -102,8 +101,9 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private void restart() {
-		if (Build.VERSION.SDK_INT >= 11)
-			recreate();
+		//if (Build.VERSION.SDK_INT >= 11)
+		recreate();
+		/*
 		else {
 			Intent intent = getIntent();
 			intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
 			startActivity(intent);
 			overridePendingTransition(0, 0);
 		}
+		*/
 	}
 
 	private void noQuestionFileFound() {
@@ -137,12 +138,15 @@ public class MainActivity extends AppCompatActivity {
 		return true;
 	}
 
+	/*
+	// TODO: toolbar
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// action bar clicks are handled here
 		int id = item.getItemId();
 		return id == R.id.action_settings || super.onOptionsItemSelected(item);
 	}
+	*/
 
 	private void requestStoragePermission() {
 		if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {

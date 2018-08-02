@@ -1,36 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	tools:context="com.example.quiz_eg.MainActivity">
+	android:layout_height="wrap_content"
+	android:layout_alignParentTop="true"
+	android:gravity="center_horizontal"
+	android:orientation="vertical"
+	tools:context="com.example.quiz_eg.activities.MainActivity">
 
-	<LinearLayout
-		android:layout_width="match_parent"
+	<include layout="@layout/toolbar" />
+
+	<TextView
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_alignParentTop="true"
-		android:gravity="center_horizontal"
-		android:orientation="vertical">
+		android:layout_marginTop="@dimen/quizHeader_marginBottom"
+		android:text="@string/quizSelectionTitle"
+		android:textSize="@dimen/quizHeader_textSize" />
 
-		<include layout="@layout/toolbar" />
+	<ListView
+		android:id="@+id/quiz_ListView"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginEnd="@dimen/quizListView_margin"
+		android:layout_marginLeft="@dimen/quizListView_margin"
+		android:layout_marginRight="@dimen/quizListView_margin"
+		android:layout_marginStart="@dimen/quizListView_margin"
+		android:layout_marginTop="@dimen/quizListView_margin" />
 
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="@dimen/quizHeader_marginBottom"
-			android:text="@string/quizSelectionTitle"
-			android:textSize="@dimen/quizHeader_textSize" />
-
-		<ListView
-			android:id="@+id/quiz_ListView"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:layout_marginEnd="@dimen/quizListView_margin"
-			android:layout_marginLeft="@dimen/quizListView_margin"
-			android:layout_marginRight="@dimen/quizListView_margin"
-			android:layout_marginStart="@dimen/quizListView_margin"
-			android:layout_marginTop="@dimen/quizListView_margin" />
-
-	</LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

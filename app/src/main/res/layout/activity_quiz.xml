@@ -1,29 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:layout_margin="@dimen/quiz_margin"
+	android:layout_height="wrap_content"
 	android:orientation="vertical"
-	tools:context="com.example.quiz_eg.QuizActivity">
+	tools:context="com.example.quiz_eg.activities.QuizActivity">
 
-	<TextView
-		android:id="@+id/scoreTextView"
+	<include layout="@layout/toolbar" />
+
+	<RelativeLayout
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content" />
+		android:layout_height="match_parent"
+		android:layout_margin="@dimen/quiz_margin">
 
-	<TextView
-		android:id="@+id/questionTextView"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginBottom="@dimen/question_marginBottom"
-		android:layout_marginTop="@dimen/question_marginTop"
-		android:textSize="@dimen/question_textSize" />
+		<TextView
+			android:id="@+id/scoreTextView"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:textSize="@dimen/quizScore_textSize"/>
 
-	<ListView
-		android:id="@+id/answersListView"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_alignParentBottom="true" />
+		<TextView
+			android:id="@+id/questionTextView"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="@dimen/question_marginBottom"
+			android:layout_marginTop="@dimen/question_marginTop"
+			android:textSize="@dimen/question_textSize" />
 
-</RelativeLayout>
+		<ListView
+			android:id="@+id/answersListView"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true" />
+
+	</RelativeLayout>
+</LinearLayout>

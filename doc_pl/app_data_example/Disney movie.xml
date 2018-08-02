@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test>
+    <source>https://www.allthetests.com/quiz28/quiz/1292966657/Animated-Disney-Movies-Quiz</source>
+	<topic>Disney movies</topic>
+
+	<question>
+		<body>What is the name of Simba's mother?</body>
+		<answer>Nala</answer>
+		<banswer>Nuka</banswer>
+		<banswer>Sarabi</banswer>
+		<banswer>Vitani</banswer>
+		<banswer>Zira</banswer>
+	</question>
+
+	<question>
+		<body>What is the name of the evil stepmother from Cinderella?</body>
+		<answer>Lady Tremaine</answer>
+		<banswer>Lady Trameine</banswer>
+		<banswer>Lady Treime</banswer>
+		<banswer>Lady Tremameine</banswer>
+		<banswer>Lady Trimone</banswer>
+	</question>
+
+	<question>
+		<body>What is the name of the green fairy in Sleeping Beauty?</body>
+		<answer>Fauna</answer>
+		<banswer>Cordelia</banswer>
+		<banswer>Flora</banswer>
+		<banswer>Maleficient</banswer>
+		<banswer>Merry weather</banswer>
+	</question>
+
+	<question>
+		<body>what was the first released full-length animated movie?</body>
+		<answer>Snow White and the Seven Dwarfs</answer>
+		<banswer>Bambi</banswer>
+		<banswer>Dumbo</banswer>
+		<banswer>Fantasia</banswer>
+		<banswer>Sleeping Beauty</banswer>
+	</question>
+
+	<question>
+		<body>Which of the following did Walter Elias Disney work on, but never got to see finished because of his death?</body>
+		<answer>Jungle Book</answer>
+		<banswer>101 Dalmatians</banswer>
+		<banswer>Lady and the Tramp</banswer>
+		<banswer>Peter Pan</banswer>
+		<banswer>The Sword in the Stone</banswer>
+	</question>
+
+	<question>
+		<body>Which of the following isn't Disney movie?</body>
+		<answer>Anastasia</answer>
+		<banswer>Hercules</banswer>
+		<banswer>Home on the Range</banswer>
+		<banswer>The Hunchback of Notre Dame</banswer>
+		<banswer>Treasure Planet</banswer>
+	</question>
+
+	<question>
+		<body>What is Beast's actual name in Beauty and the Beast?</body>
+		<answer>Prince Adam</answer>
+		<banswer>Prince Charles</banswer>
+		<banswer>Prince Christian</banswer>
+		<banswer>Prince Parker</banswer>
+		<banswer>Prince William</banswer>
+	</question>
+
+	<question>
+		<body>What is Aladdin's first wish he asks of Genie?</body>
+		<answer>To become a prince</answer>
+		<banswer>For Princess jasmine to fall in love with him.</banswer>
+		<banswer>For a flying carpet</banswer>
+		<banswer>To leave the Cave of Wonders</banswer>
+		<banswer>To save himself from drowning</banswer>
+	</question>
+
+</test>

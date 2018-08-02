@@ -2,7 +2,7 @@
 <resources>
 	<string name="action_search">Szukaj</string>
 	<string name="action_settings">Ustawienia</string>
-	<string name="app_name">Quiz_eg</string>
+	<string name="app_name">Quiz</string>
 	<string name="badAnswer">Źle</string>
 	<string name="cancelLabel">Anuluj</string>
 	<string name="exitLabel">Zakończ</string>

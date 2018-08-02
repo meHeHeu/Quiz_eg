@@ -16,7 +16,7 @@ public final class RandomUtils {
 	 *
 	 * @param list - a list to shuffle
 	 */
-	public static <T> void ShuffleArray(List<T> list) {
+	public static <T> void ShuffleList(List<T> list) {
 		for (int i = list.size() - 1; i > 0; --i) {
 			int j = random.nextInt(i + 1);
 

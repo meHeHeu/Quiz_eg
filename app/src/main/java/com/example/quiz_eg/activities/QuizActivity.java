@@ -1,14 +1,17 @@
-package com.example.quiz_eg;
+package com.example.quiz_eg.activities;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.quiz_eg.Questions;
+import com.example.quiz_eg.R;
 import com.example.quiz_eg.utils.Constants;
 import com.example.quiz_eg.utils.RandomUtils;
 
@@ -26,12 +29,44 @@ public class QuizActivity extends AppCompatActivity {
 	int score;
 	int questionNumber;
 
+	@BindView(R.id.toolbar)
+	Toolbar toolbar;
 	@BindView(R.id.questionTextView)
 	TextView questionTextView;
 	@BindView(R.id.scoreTextView)
 	TextView scoreTextView;
 	@BindView(R.id.answersListView)
 	ListView answersListView;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_quiz);
+
+		ButterKnife.bind(this);
+
+		setSupportActionBar(toolbar);
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+		File file = (File) getIntent().getSerializableExtra(Constants.QUIZ_EXTRA);
+		questions = new Questions(file);
+
+		currentQuestionIndex = 0;
+		score = 0;
+		questionNumber = questions.number();
+
+		updateQuestion();
+	}
+
+	/*
+	// TODO: toolbar
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// action bar clicks are handled here
+		int id = item.getItemId();
+		return id == R.id.action_settings || super.onOptionsItemSelected(item);
+	}
+	*/
 
 	@OnItemClick(R.id.answersListView)
 	public void setAnswersListView_onClick(int pos) {
@@ -51,23 +86,6 @@ public class QuizActivity extends AppCompatActivity {
 		}
 	}
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_quiz);
-
-		ButterKnife.bind(this);
-
-		File file = (File) getIntent().getSerializableExtra(Constants.QUIZ_EXTRA);
-		questions = new Questions(file);
-
-		currentQuestionIndex = 0;
-		score = 0;
-		questionNumber = questions.number();
-
-		updateQuestion();
-	}
-
 	private void updateQuestion() {
 
 		scoreTextView.setText(getString(R.string.scoreTextView, score, questionNumber));
@@ -76,8 +94,8 @@ public class QuizActivity extends AppCompatActivity {
 		questionTextView.setText(currentQuestion.body);
 
 		int
-			banswerNumber = currentQuestion.badAnswer.size(),
-			answerNumber = banswerNumber + 1;
+				banswerNumber = currentQuestion.badAnswer.size(),
+				answerNumber = banswerNumber + 1;
 
 		String[] answers = new String[answerNumber];
 		answers[0] = currentQuestion.answer;
@@ -86,7 +104,7 @@ public class QuizActivity extends AppCompatActivity {
 		answers[banswerNumber] = currentQuestion.answer;
 		RandomUtils.ShuffleArray(answers);
 
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+		ArrayAdapter<String> adapter = new ArrayAdapter<>(
 				this.getApplicationContext(),
 				R.layout.quiz_item,
 				R.id.quiz_item,
