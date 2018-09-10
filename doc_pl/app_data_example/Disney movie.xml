@@ -5,9 +5,9 @@
 
 	<question>
 		<body>What is the name of Simba's mother?</body>
-		<answer>Nala</answer>
+		<answer>Sarabi</answer>
 		<banswer>Nuka</banswer>
-		<banswer>Sarabi</banswer>
+		<banswer>Nala</banswer>
 		<banswer>Vitani</banswer>
 		<banswer>Zira</banswer>
 	</question>
@@ -31,7 +31,7 @@
 	</question>
 
 	<question>
-		<body>what was the first released full-length animated movie?</body>
+		<body>What was the first released full-length animated movie?</body>
 		<answer>Snow White and the Seven Dwarfs</answer>
 		<banswer>Bambi</banswer>
 		<banswer>Dumbo</banswer>
